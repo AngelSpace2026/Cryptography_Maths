@@ -1,1 +1,1 @@
-Two numbers is first is 1 and seconond is steps.
+Three  numbers is first is 1, seconond is steps third divide number.
