@@ -7,10 +7,8 @@ def encode_until_one(number):
 
     print(f"Encoding {number} with optimized steps until it becomes 1...\n")
 
-    # Keep track of each step where the number is divided by a divisor
     while number > 1:
         found_divisor = False
-        # Try divisors from 2 up to 10 (or a higher number for better reduction)
         for divisor in range(2, 11):
             if number % divisor == 0:
                 path.append((number, divisor))
@@ -21,7 +19,6 @@ def encode_until_one(number):
                 break
 
         if not found_divisor:
-            # If no small divisor is found, try a random large divisor
             divisor = random.randint(11, 2**24)
             if number % divisor == 0:
                 path.append((number, divisor))
@@ -29,7 +26,11 @@ def encode_until_one(number):
                 step += 1
                 print(f"Step {step}: {path[-1][0]} ÷ {divisor} = {number}")
     
-    path.append((1, None))  # Final step
+    # Final step: reached 1
+    path.append((1, None))
+    step += 1
+    print(f"Step {step}: Reached 1")
+
     return path, original, step
 
 def decode_path(path):
@@ -53,15 +54,12 @@ if __name__ == "__main__":
         if div:
             print(f"Step {i+1}: {num} ÷ {div} = {num // div}")
         else:
-            print("Final: 1 reached")
+            print(f"Step {i+1}: Reached 1")
 
     decoded = decode_path(encoded_path)
     print(f"\nDecoded number: {decoded}")
-
     print("Yes" if decoded == original else "No")
 
-    # Print 1 to indicate the final step reached
+    # Final output
     print("1")
-
-    # Print the number of steps
     print(f"Divided {total_steps} steps")
