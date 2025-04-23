@@ -7,17 +7,19 @@ def encode_until_one(number):
 
     print(f"Encoding {number} with infinite steps until it becomes 1...\n")
 
+    last_divisor = None
+
     while number > 1:
         divisor = random.randint(1, 2**24)
         if divisor != 0 and number % divisor == 0:
             path.append((number, divisor))
             number //= divisor
             step += 1
+            last_divisor = divisor
             print(f"Step {step}: {path[-1][0]} ÷ {divisor} = {number}")
-        # Else: try another divisor (loop continues infinitely)
 
     path.append((1, None))  # Final step
-    return path, original
+    return path, original, step, last_divisor
 
 def decode_path(path):
     number = 1
@@ -31,7 +33,7 @@ def decode_path(path):
 if __name__ == "__main__":
     start_number = int(input("Enter a number to encode: "))
 
-    encoded_path, original = encode_until_one(start_number)
+    encoded_path, original, total_steps, last_divisor = encode_until_one(start_number)
 
     print("\nEncoded path:")
     for i, (num, div) in enumerate(encoded_path):
@@ -44,3 +46,7 @@ if __name__ == "__main__":
     print(f"\nDecoded number: {decoded}")
 
     print("Yes" if decoded == original else "No")
+
+    # Print the last three values
+    print(f"\nLast Three Values:")
+    print(f"1 (Final result), Steps = {total_steps}, Last Divisor = {last_divisor}")
