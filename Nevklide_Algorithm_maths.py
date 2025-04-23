@@ -9,7 +9,7 @@ def encode_until_one(number):
 
     while number > 1:
         found_divisor = False
-        for divisor in range(2, 11):
+        for divisor in range(2, number + 1):
             if number % divisor == 0:
                 path.append((number, divisor))
                 number //= divisor
@@ -19,16 +19,11 @@ def encode_until_one(number):
                 break
 
         if not found_divisor:
-            divisor = random.randint(11, 2**24)
-            if number % divisor == 0:
-                path.append((number, divisor))
-                number //= divisor
-                step += 1
-                print(f"Step {step}: {path[-1][0]} ÷ {divisor} = {number}")
-    
-    # Final step: reached 1
-    path.append((1, None))
+            print(f"No divisor found for {number} (shouldn't happen)")
+            break
+
     step += 1
+    path.append((1, None))
     print(f"Step {step}: Reached 1")
 
     return path, original, step
@@ -60,6 +55,10 @@ if __name__ == "__main__":
     print(f"\nDecoded number: {decoded}")
     print("Yes" if decoded == original else "No")
 
-    # Final output
-    print("1")
-    print(f"Divided {total_steps} steps")
+    print(f"\nFinal Result:")
+    if len(encoded_path) >= 2:
+        last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
+        print(f"{last_before_one}")
+    else:
+        print("1")
+    print(f"Divided in {total_steps} steps from {original}")
