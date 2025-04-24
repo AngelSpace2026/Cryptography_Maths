@@ -79,12 +79,13 @@ if __name__ == "__main__":
     print("Yes" if decoded == original else "No")
 
     print(f"\nFinal Result:")
+
+    # Print the last non-1 number before division to 1
     if len(encoded_path) >= 2:
-        # Get the last number before the division to 1
         last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
-        print(f"Last non-1 number: {last_before_one}")  # Printing just the last non-1 number
+        print(f"Last non-1 number before division: {encoded_path[-2][0]} ÷ {encoded_path[-2][1]} = {last_before_one}")
     else:
-        print("Last non-1 number: 1")
+        print("Last non-1 number before division: 1")
 
     print(f"Divided in {total_steps} steps from {original}")
 
