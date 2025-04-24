@@ -1,4 +1,6 @@
 import random
+from qiskit import QuantumCircuit
+from qiskit.visualization import plot_histogram
 
 def encode_until_one(number):
     original = number
@@ -39,6 +41,28 @@ def decode_path(path):
             print("Final step: Reached 1")
     return number
 
+def simulate_quantum_register(value, label):
+    X = value.bit_length()
+    qubits = 2 ** X + 1
+
+    print(f"\nSimulating quantum register for {label} ({value}):")
+    print(f"Bit length (X): {X}, using {qubits} qubits and {X+1} quantum operations.\n")
+
+    qc = QuantumCircuit(qubits)
+
+    # Apply X gate to simulate encoding the number
+    for i in range(X+1):
+        if (value >> i) & 1:
+            qc.x(i)
+
+    qc.barrier()
+
+    # Add example Hadamard gates for demonstration
+    for i in range(X+1):
+        qc.h(i)
+
+    print(qc.draw(output='text'))
+
 if __name__ == "__main__":
     start_number = int(input("Enter a number to encode: "))
 
@@ -60,5 +84,12 @@ if __name__ == "__main__":
         last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
         print(f"{last_before_one}")
     else:
+        last_before_one = 1
         print("1")
+
     print(f"Divided in {total_steps} steps from {original}")
+
+    # Simulate quantum register setup (without simulation)
+    simulate_quantum_register(original, "Original Number")
+    simulate_quantum_register(last_before_one, "Last Before One")
+    simulate_quantum_register(total_steps, "Total Steps")
