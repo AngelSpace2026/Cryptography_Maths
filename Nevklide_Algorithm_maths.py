@@ -87,6 +87,7 @@ if __name__ == "__main__":
         print("1")
 
     print(f"Divided in {total_steps} steps from {original}")
+    print(f"Divide: {original}")
 
     simulate_quantum_register(original, "Original Number")
     simulate_quantum_register(last_before_one, "Last Before One")
