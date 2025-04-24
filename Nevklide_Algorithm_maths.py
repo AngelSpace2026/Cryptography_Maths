@@ -1,7 +1,15 @@
-from qiskit import QuantumCircuit
-from qiskit.visualization import plot_histogram
+def find_divisor(n):
+    """Finds the smallest divisor of n greater than 1."""
+    if n % 2 == 0:
+        return 2
+    for i in range(3, int(n**0.5) + 1, 2):
+        if n % i == 0:
+            return i
+    return n  # n is prime
+
 
 def encode_until_one(number):
+    """Encodes a number by repeatedly dividing by its smallest divisor until 1 is reached."""
     original = number
     path = []
     step = 0
@@ -9,19 +17,11 @@ def encode_until_one(number):
     print(f"Encoding {number} with optimized steps until it becomes 1...\n")
 
     while number > 1:
-        found_divisor = False
-        for divisor in range(2, number + 1):
-            if number % divisor == 0:
-                path.append((number, divisor))
-                number //= divisor
-                step += 1
-                print(f"Step {step}: {path[-1][0]} ÷ {divisor} = {number}")
-                found_divisor = True
-                break
-
-        if not found_divisor:
-            print(f"No divisor found for {number} (shouldn't happen)")
-            break
+        divisor = find_divisor(number)
+        path.append((number, divisor))
+        number //= divisor
+        step += 1
+        print(f"Step {step}: {path[-1][0]} ÷ {divisor} = {number}")
 
     step += 1
     path.append((1, None))
@@ -29,7 +29,9 @@ def encode_until_one(number):
 
     return path, original, step
 
+
 def decode_path(path):
+    """Decodes a number from its encoded path."""
     number = 1
     print("\nDecoding path...")
     for num, divisor in reversed(path):
@@ -40,32 +42,10 @@ def decode_path(path):
             print("Final step: Reached 1")
     return number
 
-def simulate_quantum_register(value, label):
-    X = value.bit_length()
-    qubits = 2 ** X + 1
-
-    print(f"\nSimulating quantum register for {label} ({value}):")
-    print(f"Bit length (X): {X}, using {qubits} qubits and {X+1} quantum operations.\n")
-
-    qc = QuantumCircuit(qubits)
-
-    # Apply X gate to simulate encoding the number
-    for i in range(X+1):
-        if (value >> i) & 1:
-            qc.x(i)
-
-    qc.barrier()
-
-    # Add some example operations (e.g., Hadamard for demonstration)
-    for i in range(X+1):
-        qc.h(i)
-
-    print(qc.draw())
 
 if __name__ == "__main__":
     start_number = int(input("Enter a number to encode: "))
 
-    # Ensure the number is greater than 1 to proceed with encoding
     if start_number <= 1:
         print("Please enter a number greater than 1 for encoding.")
     else:
@@ -84,15 +64,10 @@ if __name__ == "__main__":
 
         print(f"\nFinal Result:")
 
-        # Print the last non-1 number before division to 1
         if len(encoded_path) >= 2:
-            last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
-            print(f"Last non-1 number before division: {encoded_path[-2][0]} ÷ {encoded_path[-2][1]} = {last_before_one}")
+            last_before_one = encoded_path[-2][0]
+            print(f"Last non-1 number before division: {last_before_one}")
         else:
             print("Last non-1 number before division: 1")
 
         print(f"Divided in {total_steps} steps from {original}")
-
-        simulate_quantum_register(original, "Original Number")
-        simulate_quantum_register(last_before_one, "Last Before One")
-        simulate_quantum_register(total_steps, "Total Steps")
