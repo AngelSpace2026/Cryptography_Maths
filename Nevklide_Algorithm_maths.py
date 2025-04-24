@@ -82,11 +82,9 @@ if __name__ == "__main__":
     if len(encoded_path) >= 2:
         # Get the last number before the division to 1
         last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
-        print(f"Last before 1: {last_before_one}")
-        print(f"Divide: {last_before_one}")
+        print(f"Last non-1 number: {last_before_one}")  # Printing just the last non-1 number
     else:
-        print("Last before 1: 1")
-        print(f"Divide: 1")
+        print("Last non-1 number: 1")
 
     print(f"Divided in {total_steps} steps from {original}")
 
