@@ -1,4 +1,3 @@
-import random
 from qiskit import QuantumCircuit
 from qiskit.visualization import plot_histogram
 
@@ -57,11 +56,11 @@ def simulate_quantum_register(value, label):
 
     qc.barrier()
 
-    # Add example Hadamard gates for demonstration
+    # Add some example operations (e.g., Hadamard for demonstration)
     for i in range(X+1):
         qc.h(i)
 
-    print(qc.draw(output='text'))
+    print(qc.draw())
 
 if __name__ == "__main__":
     start_number = int(input("Enter a number to encode: "))
@@ -89,7 +88,6 @@ if __name__ == "__main__":
 
     print(f"Divided in {total_steps} steps from {original}")
 
-    # Simulate quantum register setup (without simulation)
     simulate_quantum_register(original, "Original Number")
     simulate_quantum_register(last_before_one, "Last Before One")
     simulate_quantum_register(total_steps, "Total Steps")
