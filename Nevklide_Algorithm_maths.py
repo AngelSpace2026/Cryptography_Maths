@@ -80,14 +80,15 @@ if __name__ == "__main__":
 
     print(f"\nFinal Result:")
     if len(encoded_path) >= 2:
+        # Get the last number before the division to 1
         last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
-        print(f"{last_before_one}")
+        print(f"Last before 1: {last_before_one}")
+        print(f"Divide: {last_before_one}")
     else:
-        last_before_one = 1
-        print("1")
+        print("Last before 1: 1")
+        print(f"Divide: 1")
 
     print(f"Divided in {total_steps} steps from {original}")
-    print(f"Divide: {original}")
 
     simulate_quantum_register(original, "Original Number")
     simulate_quantum_register(last_before_one, "Last Before One")
