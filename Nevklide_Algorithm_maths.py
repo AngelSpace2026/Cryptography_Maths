@@ -65,30 +65,34 @@ def simulate_quantum_register(value, label):
 if __name__ == "__main__":
     start_number = int(input("Enter a number to encode: "))
 
-    encoded_path, original, total_steps = encode_until_one(start_number)
-
-    print("\nEncoded path:")
-    for i, (num, div) in enumerate(encoded_path):
-        if div:
-            print(f"Step {i+1}: {num} ÷ {div} = {num // div}")
-        else:
-            print(f"Step {i+1}: Reached 1")
-
-    decoded = decode_path(encoded_path)
-    print(f"\nDecoded number: {decoded}")
-    print("Yes" if decoded == original else "No")
-
-    print(f"\nFinal Result:")
-
-    # Print the last non-1 number before division to 1
-    if len(encoded_path) >= 2:
-        last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
-        print(f"Last non-1 number before division: {encoded_path[-2][0]} ÷ {encoded_path[-2][1]} = {last_before_one}")
+    # Ensure the number is greater than 1 to proceed with encoding
+    if start_number <= 1:
+        print("Please enter a number greater than 1 for encoding.")
     else:
-        print("Last non-1 number before division: 1")
+        encoded_path, original, total_steps = encode_until_one(start_number)
 
-    print(f"Divided in {total_steps} steps from {original}")
+        print("\nEncoded path:")
+        for i, (num, div) in enumerate(encoded_path):
+            if div:
+                print(f"Step {i+1}: {num} ÷ {div} = {num // div}")
+            else:
+                print(f"Step {i+1}: Reached 1")
 
-    simulate_quantum_register(original, "Original Number")
-    simulate_quantum_register(last_before_one, "Last Before One")
-    simulate_quantum_register(total_steps, "Total Steps")
+        decoded = decode_path(encoded_path)
+        print(f"\nDecoded number: {decoded}")
+        print("Yes" if decoded == original else "No")
+
+        print(f"\nFinal Result:")
+
+        # Print the last non-1 number before division to 1
+        if len(encoded_path) >= 2:
+            last_before_one = encoded_path[-2][0] // encoded_path[-2][1]
+            print(f"Last non-1 number before division: {encoded_path[-2][0]} ÷ {encoded_path[-2][1]} = {last_before_one}")
+        else:
+            print("Last non-1 number before division: 1")
+
+        print(f"Divided in {total_steps} steps from {original}")
+
+        simulate_quantum_register(original, "Original Number")
+        simulate_quantum_register(last_before_one, "Last Before One")
+        simulate_quantum_register(total_steps, "Total Steps")
